@@ -1,0 +1,10 @@
+node_modules
+backend
+data
+*.ipynb
+*.xlsx
+*.csv
+*.pkl
+*.py
+.git
+.vscode
