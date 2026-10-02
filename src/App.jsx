@@ -1225,7 +1225,9 @@ function MachineHealth() {
       console.error("Machine Health AI Error:", err);
 
       setError(
-        "Unable to connect to Machine Health AI. Make sure FastAPI is running on port 8000."
+        err instanceof Error
+          ? `Machine Health request failed: ${err.message}`
+          : "Machine Health request failed."
       );
     }
 

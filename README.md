@@ -31,17 +31,17 @@ EnerForge AI is a factory intelligence dashboard for energy monitoring, predicti
 - Import the repository into Vercel.
 - Set the build command to `npm run build`.
 - Set the output directory to `dist`.
-- Add the environment variable:
-  `VITE_API_URL=https://your-backend-url` 
+- Set `VITE_API_URL` to the Railway service's public URL, for example `https://your-service.up.railway.app` (no path or trailing slash).
+- Redeploy the frontend after changing this variable; Vite reads it during the build.
 
-### Backend on Render / Railway / another Python host
+### Backend on Railway
 
-- Deploy the repository or the backend folder as a Python service.
-- Install dependencies from `backend/requirements.txt`.
-- Start the app with:
-  `uvicorn backend.main:app --host 0.0.0.0 --port $PORT`
-- Add CORS origins if your frontend is hosted elsewhere:
-  `BACKEND_CORS_ORIGINS=https://your-frontend-url`
+- Deploy the repository with the repository root as the service root.
+- Build command: `pip install -r backend/requirements.txt`.
+- Start command: `uvicorn backend.main:app --host 0.0.0.0 --port $PORT`.
+- Set `BACKEND_CORS_ORIGINS` to the exact Vercel site origin, for example `https://enerforge-ai.vercel.app` (no path or trailing slash). For multiple origins, separate them with commas.
+- Git LFS model files are fetched from the public repository on startup and cached under `/tmp/enerforge-models`; set `MODEL_CACHE_DIR` if using a persistent volume.
+- After deploy, open `https://your-service.up.railway.app/health`; it should return JSON with `"backend": "online"`.
 
 ## Key deployment notes
 
