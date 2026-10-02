@@ -192,14 +192,23 @@ def predict_machine_health(data: dict):
     else:
         probability = 0
 
+    failure_risk = round(float(probability) * 100, 2)
+    if failure_risk >= 70:
+        status = "Critical"
+        recommendation = "Immediate maintenance inspection recommended."
+    elif failure_risk >= 40:
+        status = "Warning"
+        recommendation = "Schedule maintenance inspection soon."
+    else:
+        status = "Healthy"
+        recommendation = "Machine operating within predicted normal range."
+
     return {
         "machine_failure": int(prediction),
-        "failure_probability": round(float(probability) * 100, 2),
-        "status": (
-            "Critical"
-            if prediction == 1
-            else "Healthy"
-        )
+        "failure_probability": failure_risk,
+        "failure_risk_percent": failure_risk,
+        "status": status,
+        "recommendation": recommendation,
     }
 
 
